@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projeto Dúvida do Dia</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f9f9f9; color: #333; }
+    header { background: #005f73; color: white; padding: 1rem; text-align: center; }
+    nav { background: #0a9396; padding: 0.5rem; text-align: center; }
+    nav a { color: white; margin: 0 1rem; text-decoration: none; font-weight: bold; }
+    main { padding: 2rem; }
+    section { margin-bottom: 2rem; }
+    footer { background: #005f73; color: white; text-align: center; padding: 1rem; margin-top: 2rem; }
+    .duvida { background: #ffffff; border-left: 5px solid #94d2bd; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+    .duvida h3 { margin-top: 0; }
+    .tag { background: #ee9b00; color: white; padding: 2px 6px; border-radius: 3px; margin-right: 4px; font-size: 0.85rem; }
+    .button { display: inline-block; background: #ca6702; color: white; padding: 6px 12px; text-decoration: none; border-radius: 5px; margin-top: 0.5rem; }
+    textarea { width: 100%; max-width: 600px; padding: 0.5rem; }
+    button[type="submit"] { margin-top: 0.5rem; padding: 0.5rem 1rem; background: #0a9396; color: white; border: none; border-radius: 4px; }
+    @media (max-width: 768px) {
+      nav a { display: block; margin: 0.5rem 0; }
+      main { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Projeto Dúvida do Dia</h1>
+    <p>Respostas diárias baseadas em dúvidas reais recebidas por Auditor Fiscal do Trabalho</p>
+  </header>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#duvidas">Dúvidas de Hoje</a>
+    <a href="#arquivo">Arquivo</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#contato">Contato</a>
+    <a href="https://instagram.com/leandro_cmarinho" target="_blank">Instagram</a>
+  </nav>
+
+  <main>
+    <section id="home">
+      <h2>Destaque do Dia</h2>
+      <div class="duvida">
+        <h3 id="destaque-pergunta"></h3>
+        <p id="destaque-resposta"></p>
+        <div id="destaque-tags"></div>
+        <br><a class="button" href="#duvidas">Ver todas as dúvidas de hoje</a>
+      </div>
+    </section>
+
+    <section id="duvidas">
+      <h2>Dúvidas de Hoje (<span id="data-hoje"></span>)</h2>
+      <div id="lista-duvidas"></div>
+    </section>
+
+    <section id="arquivo">
+      <h2>Arquivo de Dúvidas</h2>
+      <p>Pesquise por data, palavra-chave ou tema. Em breve ferramenta de busca será implementada.</p>
+    </section>
+
+    <section id="sobre">
+      <h2>Sobre o Projeto</h2>
+      <p>O Projeto Dúvida do Dia tem como objetivo divulgar dúvidas reais recebidas por um Auditor Fiscal do Trabalho e respondê-las com clareza e fundamento técnico-jurídico.</p>
+    </section>
+
+    <section id="contato">
+      <h2>Envie sua Dúvida</h2>
+      <p>Este projeto responde apenas dúvidas recebidas no dia. Use o Instagram ou o formulário a seguir:</p>
+      <form id="form-duvida">
+        <label for="duvida">Sua dúvida:</label><br>
+        <textarea id="duvida" name="duvida" rows="4"></textarea><br>
+        <button type="submit">Enviar</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Projeto Dúvida do Dia. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    document.getElementById('data-hoje').textContent = new Date().toLocaleDateString('pt-BR');
+
+    const duvidas = [
+      {
+        pergunta: "É permitido descontar o uniforme do salário do trabalhador?",
+        resposta: "Segundo o art. 462 da CLT, o desconto só pode ocorrer se houver previsão contratual ou dolo comprovado do empregado...",
+        tags: ["#CLT", "#Uniforme"]
+      },
+      {
+        pergunta: "Qual é o limite de jornada de um trabalhador rural em colheita de café?",
+        resposta: "De acordo com o artigo 7º, inciso XIII da Constituição Federal, a jornada normal é de até 8 horas diárias, podendo ser estendida por até 2 horas extras...",
+        tags: ["#TrabalhoRural", "#Jornada"]
+      }
+    ];
+
+    function renderDuvidas() {
+      const lista = document.getElementById('lista-duvidas');
+      lista.innerHTML = '';
+      duvidas.forEach(d => {
+        const div = document.createElement('div');
+        div.className = 'duvida';
+        div.innerHTML = `<h3>${d.pergunta}</h3><p>${d.resposta}</p>` +
+          d.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+        lista.appendChild(div);
+      });
+
+      document.getElementById('destaque-pergunta').textContent = duvidas[1].pergunta;
+      document.getElementById('destaque-resposta').textContent = duvidas[1].resposta;
+      document.getElementById('destaque-tags').innerHTML = duvidas[1].tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+    }
+
+    document.getElementById('form-duvida').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const texto = document.getElementById('duvida').value.trim();
+      if (texto) {
+        alert("Dúvida enviada com sucesso! Obrigado por participar.");
+        document.getElementById('duvida').value = '';
+      }
+    });
+
+    renderDuvidas();
+  </script>
+</body>
+</html>
